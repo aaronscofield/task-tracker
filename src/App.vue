@@ -30,21 +30,35 @@ export default {
     toggleAddTask(){
       this.showAddTask = !this.showAddTask
     },
+
     addTask(newTask){
       //this.tasks.push(newTask)
       this.tasks = [...this.tasks, newTask]
     },
+
     deleteTask(id){
       if(confirm('Are you sure?')) {
         this.tasks = this.tasks.filter((task) => task.id !== id);
       }
     }, 
+
     toggleReminder(id){
       this.tasks = this.tasks.map((task) => task.id === id ? {...task, reminder: !task.reminder} : task)
     },
+
     async fetchTasks(){
-      const res = await fetch('http://127.0.0.1:5000/tasks');
+      const res = await fetch('api/tasks');
+
       const data = await res.json()
+      
+      return data
+    },
+
+    async fetchTask(id){
+      const res = await fetch(`api/tasks/${id}`);
+
+      const data = await res.json()
+
       return data
     }
   },
